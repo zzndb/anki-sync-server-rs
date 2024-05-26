@@ -17,18 +17,20 @@ realpath() {
 
 PROJECT_ROOT=$(realpath)   # or result=`myfunc`
 ANKI_REPO_URL=${ANKI_REPO_URL:-"https://github.com/ankitects/anki"}
-ANKI_COMMIT=fac9e0ee1436ba5ac3366c72dd9394a6e692b1cf
+ANKI_COMMIT=ccd9ca1a8309b80bcb50ddc5d99c7ce63440bce9
 
 #PROJECT_ROOT="$(realpath "$(dirname "$(dirname "$0")")")"
 ANKI_PATCH_FOLDER="$PROJECT_ROOT./anki_patch/"
 ANKI_FILE_SUFFIX="_anki_rslib.patch"
 
-echo "Cloning anki from $ANKI_REPO_URL"
+echo "Cloning anki from $ANKI_REPO_URL of commit $ANKI_COMMIT"
 cd "$PROJECT_ROOT"
 # remove anki lib in case patched cache exists in docker build during github action
 rm -fr anki
-git clone "$ANKI_REPO_URL"
-echo "Checking out commit $ANKI_COMMIT and applying patch"
-cd anki
-git checkout $ANKI_COMMIT
+mkdir -p anki && cd anki
+git init
+git remote add origin "$ANKI_REPO_URL"
+git fetch --depth 1 origin $ANKI_COMMIT
+git checkout FETCH_HEAD
+echo "Applying patch"
 git apply "$ANKI_PATCH_FOLDER/$ANKI_COMMIT$ANKI_FILE_SUFFIX"

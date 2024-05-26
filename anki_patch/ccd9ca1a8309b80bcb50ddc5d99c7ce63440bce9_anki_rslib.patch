@@ -1,10 +1,8 @@
-From 45de36797eed8e079d24225f859ed89fed087ef8 Mon Sep 17 00:00:00 2001
-From: Dominique Martinet <dominique.martinet@atmark-techno.com>
-Date: Mon, 11 Sep 2023 09:45:41 +0900
-Subject: [PATCH] compat with ankisyncd-rs
+From 5fe99ad8f42ec680958fda85305df447de14e050 Mon Sep 17 00:00:00 2001
+From: zzndb <20870493+zzndb@users.noreply.github.com>
+Date: Thu, 23 May 2024 22:02:09 +0800
+Subject: [PATCH] anki 24.04.1
 
-- make some structs public
-- don't require ftl
 ---
  rslib/i18n/gather.rs                            |  6 +++---
  rslib/src/error/mod.rs                          |  2 +-
@@ -15,7 +13,7 @@ Subject: [PATCH] compat with ankisyncd-rs
  6 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/rslib/i18n/gather.rs b/rslib/i18n/gather.rs
-index a25e5813ecdf..de3ead2240bc 100644
+index a25e5813e..de3ead224 100644
 --- a/rslib/i18n/gather.rs
 +++ b/rslib/i18n/gather.rs
 @@ -21,16 +21,16 @@ pub fn get_ftl_data() -> TranslationsByLang {
@@ -39,7 +37,7 @@ index a25e5813ecdf..de3ead2240bc 100644
      map
  }
 diff --git a/rslib/src/error/mod.rs b/rslib/src/error/mod.rs
-index 87c128b450e6..d432d509437e 100644
+index 40af3d3a8..b884f0108 100644
 --- a/rslib/src/error/mod.rs
 +++ b/rslib/src/error/mod.rs
 @@ -11,7 +11,7 @@ mod search;
@@ -52,7 +50,7 @@ index 87c128b450e6..d432d509437e 100644
  pub use db::DbError;
  pub use db::DbErrorKind;
 diff --git a/rslib/src/sync/http_server/media_manager/mod.rs b/rslib/src/sync/http_server/media_manager/mod.rs
-index 8eae3d97f407..0e4e2bd56f80 100644
+index 8eae3d97f..0e4e2bd56 100644
 --- a/rslib/src/sync/http_server/media_manager/mod.rs
 +++ b/rslib/src/sync/http_server/media_manager/mod.rs
 @@ -16,13 +16,13 @@ use crate::sync::media::changes::MediaChange;
@@ -72,7 +70,7 @@ index 8eae3d97f407..0e4e2bd56f80 100644
          create_dir_all(&media_folder).or_internal_err("media folder create")?;
          Ok(Self {
 diff --git a/rslib/src/sync/http_server/mod.rs b/rslib/src/sync/http_server/mod.rs
-index 1d98c381ccea..0334bfeb035f 100644
+index 1b4c0ee80..12cc8d970 100644
 --- a/rslib/src/sync/http_server/mod.rs
 +++ b/rslib/src/sync/http_server/mod.rs
 @@ -3,9 +3,9 @@
@@ -88,7 +86,7 @@ index 1d98c381ccea..0334bfeb035f 100644
  
  use std::collections::HashMap;
  use std::future::Future;
-@@ -44,12 +44,12 @@ use crate::sync::request::MAXIMUM_SYNC_PAYLOAD_BYTES;
+@@ -49,12 +49,12 @@ use crate::sync::request::MAXIMUM_SYNC_PAYLOAD_BYTES;
  use crate::sync::response::SyncResponse;
  
  pub struct SimpleServer {
@@ -104,7 +102,7 @@ index 1d98c381ccea..0334bfeb035f 100644
  
  #[derive(serde::Deserialize, Debug)]
 diff --git a/rslib/src/sync/http_server/user.rs b/rslib/src/sync/http_server/user.rs
-index df7ae7596775..39ead0d2a315 100644
+index 72dcc7197..1fccdb337 100644
 --- a/rslib/src/sync/http_server/user.rs
 +++ b/rslib/src/sync/http_server/user.rs
 @@ -13,7 +13,7 @@ use crate::sync::error::HttpResult;
@@ -114,10 +112,10 @@ index df7ae7596775..39ead0d2a315 100644
 -pub(in crate::sync) struct User {
 +pub struct User {
      pub name: String,
+     pub password_hash: String,
      pub col: Option<Collection>,
-     pub sync_state: Option<ServerSyncState>,
 diff --git a/rslib/src/sync/request/mod.rs b/rslib/src/sync/request/mod.rs
-index a6f9ea8d89e6..bfaac228eaec 100644
+index a6f9ea8d8..bfaac228e 100644
 --- a/rslib/src/sync/request/mod.rs
 +++ b/rslib/src/sync/request/mod.rs
 @@ -2,7 +2,7 @@
@@ -139,5 +137,5 @@ index a6f9ea8d89e6..bfaac228eaec 100644
      /// empty with older clients
      pub client_version: String,
 -- 
-2.42.0
+2.44.0
 

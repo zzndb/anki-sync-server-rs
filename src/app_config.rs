@@ -16,6 +16,10 @@ use anki::sync::http_server::media_manager::ServerMediaManager;
 
 use anki::sync::http_server::user::User;
 use anki::sync::http_server::{SimpleServer, SimpleServerInner};
+use pbkdf2::password_hash::PasswordHasher;
+use pbkdf2::password_hash::SaltString;
+use pbkdf2::Pbkdf2;
+
 
 #[cfg(feature = "tls")]
 use crate::config::ConfigCert;
@@ -89,10 +93,20 @@ pub fn set_users(
         let folder = base_folder.join(&name);
         create_dir_all(&folder)?;
         let media = ServerMediaManager::new(&folder)?;
+        // rehash with Pbkdf2 to let server happy
+        let pwhash = Pbkdf2
+            .hash_password(
+                hash.as_bytes(),
+                &SaltString::from_b64("tonuvYGpksNFQBlEmm3lxg").unwrap(),
+            )
+            .expect("couldn't hash password")
+            .to_string();
+
         users.insert(
             hash,
             User {
                 name,
+                password_hash: pwhash,
                 col: None,
                 sync_state: None,
                 media,

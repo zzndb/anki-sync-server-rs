@@ -15,7 +15,7 @@ set ANKI_FILE_SUFFIX=_anki_rslib.patch
 
 @REM Set up other variables
 set ANKI_TAG=2.1.46
-set ANKI_COMMIT=fac9e0ee1436ba5ac3366c72dd9394a6e692b1cf
+set ANKI_COMMIT=ccd9ca1a8309b80bcb50ddc5d99c7ce63440bce9
 
 @REM Clone & patch
 echo "Cloning anki from %ANKI_REPO_URL%"

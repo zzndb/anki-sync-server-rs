@@ -1,0 +1,19 @@
+image: alpine/3.17
+packages:
+  - cargo
+  - openssl
+sources:
+environment:
+  project: anki-sync-server-rs
+  p_name: ankisyncd
+secrets:
+tasks:
+  - patch: |
+      cd ~/$project
+      sh ./scripts/clone_patch_anki
+  - build: |
+      cd ~/$project
+      cargo build --release --features tls
+  - test: |
+      cd ~/$project
+      timeout 10 ./target/release/${p_name} -c scripts/${p_name}.toml
